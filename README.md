@@ -1,5 +1,9 @@
 # ActsAsList
 
+## NOTE!
+
+This is clone of original acts_as_list gem with additions that were needed for my project. So, please use original gem (https://github.com/swanandp/acts_as_list). Do not use this edition.
+
 ## Description
 
 This `acts_as` extension provides the capabilities for sorting and reordering a number of objects in a list. The class that has this specified needs to have a `position` column defined as an integer on the mapped database table.
@@ -20,26 +24,26 @@ At first, you need to add a `position` column to desired table:
 
     rails g migration AddPositionToTodoItem position:integer
     rake db:migrate
-    
-After that you can use `acts_as_list` method in the model: 
+
+After that you can use `acts_as_list` method in the model:
 
 ```ruby
 class TodoList < ActiveRecord::Base
   has_many :todo_items, -> { order(position: :asc) }
 end
-    
+
 class TodoItem < ActiveRecord::Base
   belongs_to :todo_list
   acts_as_list scope: :todo_list
 end
-    
+
 todo_list.first.move_to_bottom
 todo_list.last.move_higher
 ```
 
 ## Instance Methods Added To ActiveRecord Models
 
-You'll have a number of methods added to each instance of the ActiveRecord model that to which `acts_as_list` is added. 
+You'll have a number of methods added to each instance of the ActiveRecord model that to which `acts_as_list` is added.
 
 In `acts_as_list`, "higher" means further up the list (a lower `position`), and "lower" means further down the list (a higher `position`). That can be confusing, so it might make sense to add tests that validate that you're using the right method given your context.
 
@@ -100,7 +104,7 @@ All versions `0.1.5` onwards require Rails 3.0.x and higher.
 2. Rails 4 compatibility and bye bye Rails 2! Older versions would of course continue to work with Rails 2, but there won't be any support on those.
 
 ## Contributing to `acts_as_list`
- 
+
 - Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
 - Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
 - Fork the project
