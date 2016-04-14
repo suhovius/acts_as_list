@@ -133,7 +133,7 @@ module ActiveRecord
         def destroy_dependent_association_without_acts_as_list_callbacks(associaton_name)
           after_destroy do |record|
             self.send(associaton_name).each do |associated_record|
-              associated_record.skip_acts_as_list_destroy_callbacks!
+              associated_record.skip_acts_as_list_destroy_callbacks! if associated_record.respond_to?(:skip_acts_as_list_destroy_callbacks!)
               associated_record.destroy
             end
           end
