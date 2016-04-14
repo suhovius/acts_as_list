@@ -113,17 +113,19 @@ module ActiveRecord
               attr_accessible :#{configuration[:column]}
             end
 
-            before_destroy :reload_position
-            after_destroy :decrement_positions_on_lower_items
-            before_update :check_scope
-            after_update :update_positions
-            before_validation :check_top_position
+            attr_accessor :skip_acts_as_list_reload_position_callback, :skip_acts_as_list_decrement_positions_on_lower_items_callback, :skip_acts_as_list_check_scope_callback, :skip_acts_as_list_update_positions_callback, :skip_acts_as_list_check_top_position_callback, :skip_acts_as_list_add_to_list_top_callback, :skip_acts_as_list_add_to_list_bottom_callback
+
+            before_destroy :reload_position, :unless => :skip_acts_as_list_reload_position_callback
+            after_destroy :decrement_positions_on_lower_items, :unless => :skip_acts_as_list_decrement_positions_on_lower_items_callback
+            before_update :check_scope, :unless => :skip_acts_as_list_check_scope_callback
+            after_update :update_positions, :unless => :skip_acts_as_list_update_positions_callback
+            before_validation :check_top_position, :unless => :skip_acts_as_list_check_top_position_callback
 
             scope :in_list, lambda { where("#{table_name}.#{configuration[:column]} IS NOT NULL") }
           EOV
 
           if configuration[:add_new_at].present?
-            self.send(:before_create, "add_to_list_#{configuration[:add_new_at]}")
+            self.send(:before_create, "add_to_list_#{configuration[:add_new_at]}", :unless => "skip_acts_as_list_add_to_list_#{configuration[:add_new_at]}_callback" )
           end
 
         end
