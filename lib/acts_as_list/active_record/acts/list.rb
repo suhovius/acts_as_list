@@ -129,6 +129,15 @@ module ActiveRecord
           end
 
         end
+
+        def destroy_dependent_association_without_acts_as_list_callbacks(associaton_name)
+          after_destroy do |record|
+            self.send(associaton_name).each do |associated_record|
+              associated_record.skip_acts_as_list_destroy_callbacks!
+              associated_record.destroy
+            end
+          end
+        end
       end
 
       # All the methods available to a record that has had <tt>acts_as_list</tt> specified. Each method works
@@ -136,6 +145,27 @@ module ActiveRecord
       # lower in the list of all chapters. Likewise, <tt>chapter.first?</tt> would return +true+ if that chapter is
       # the first in the list of all chapters.
       module InstanceMethods
+
+        def skip_acts_as_list_all_callbacks!
+          self.skip_acts_as_list_reload_position_callback = true
+          self.skip_acts_as_list_decrement_positions_on_lower_items_callback = true
+          self.skip_acts_as_list_check_scope_callback = true
+          self.skip_acts_as_list_update_positions_callback = true
+          self.skip_acts_as_list_check_top_position_callback = true
+          self.skip_acts_as_list_add_to_list_top_callback = true
+          self.skip_acts_as_list_add_to_list_bottom_callback = true
+        end
+
+        def skip_acts_as_list_add_to_list_callbacks!
+          self.skip_acts_as_list_add_to_list_top_callback = true
+          self.skip_acts_as_list_add_to_list_bottom_callback = true
+        end
+
+        def skip_acts_as_list_destroy_callbacks!
+          self.skip_acts_as_list_reload_position_callback = true
+          self.skip_acts_as_list_decrement_positions_on_lower_items_callback = true
+        end
+
         # Insert the item at the given position (defaults to the top position of 1).
         def insert_at(position = acts_as_list_top)
           insert_at_position(position)
