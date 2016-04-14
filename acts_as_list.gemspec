@@ -4,14 +4,14 @@ require "acts_as_list/version"
 
 Gem::Specification.new do |s|
   # Description Meta...
-  s.name                  = "acts_as_list"
+  s.name                  = "suhovius-acts_as_list"
   s.version               = ActiveRecord::Acts::List::VERSION
   s.platform              = Gem::Platform::RUBY
-  s.authors               = ["David Heinemeier Hansson", "Swanand Pagnis", "Quinn Chaffee"]
-  s.email                 = ["swanand.pagnis@gmail.com"]
+  s.authors               = ["David Heinemeier Hansson", "Swanand Pagnis", "Quinn Chaffee", "Alexey Suhoviy"]
+  s.email                 = ["swanand.pagnis@gmail.com", "martinsilenn@gmail.com"]
   s.homepage              = "http://github.com/swanandp/acts_as_list"
-  s.summary               = "A gem adding sorting, reordering capabilities to an active_record model, allowing it to act as a list"
-  s.description           = 'This "acts_as" extension provides the capabilities for sorting and reordering a number of objects in a list. The class that has this specified needs to have a "position" column defined as an integer on the mapped database table.'
+  s.summary               = "A gem adding sorting, reordering capabilities to an active_record model, allowing it to act as a list (Custom edition. Please use original gem)"
+  s.description           = 'This "acts_as" extension provides the capabilities for sorting and reordering a number of objects in a list. The class that has this specified needs to have a "position" column defined as an integer on the mapped database table. (Custom edition. Please use original gem)'
   s.license               = "MIT"
   s.rubyforge_project     = "acts_as_list"
   s.required_ruby_version = ">= 1.9.2"
